@@ -215,3 +215,173 @@ function f4(a = 1) {
   // ...
 }
 ```
+
+## Typescript
+
+12. Instead of explicitly declaring the type, let the compiler automatically in fer the type for you.
+
+```javascript
+// bad
+const my_name: string = 'doe';
+
+// good
+const my_name2 = 'jonh';
+
+```
+
+13. Use definition files for modules that aren't written in Typescript
+
+14. Make objects have private/protected members
+
+```javascript
+// Bad
+class Circle {
+  radius: number;
+
+  constructor(radius: number) {
+    this.radius = radius;
+  }
+
+  perimeter() {
+    return 2 * Math.PI * this.radius;
+  }
+
+  surface() {
+    return Math.PI * this.radius * this radius;
+  }
+}
+
+//Good
+class Circle {
+  constructor(private readonly radius: number) {}
+
+  perimeter() {
+    return 2 * Math.PI * this radius;
+  }
+
+  surface() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
+```
+
+15. Use type when you might need a union or intersection. Use interface when you want extends or implements.
+
+```javascript
+// Bad
+
+interface EmailConfig {
+  //...
+}
+
+interface DbConfig {
+  // ...
+}
+
+interface Config {
+  // ...
+}
+
+type Shape = {
+  // ...
+}
+```
+
+```javascript 
+// Good
+type EmailConfig {
+  //...
+}
+
+type DbConfig {
+  // ...
+}
+
+type Config {
+  // ...
+}
+
+interface Shape = {
+  // ...
+}
+
+class Circle extends Shape {
+  // ...
+}
+
+```
+
+16. "Interface Segregation Principle", design your abstraction in a way that the clients that are using the exposed methods do not get whole pie instead.
+
+```javascript
+// Bad
+interface SmartPrinter {
+  print();
+  fax();
+  scan();
+}
+
+class AllInOnePrinter implements SmartPrinter {
+  print() {
+    // ...
+  }  
+  
+  fax() {
+    // ...
+  }
+
+  scan() {
+    // ...
+  }
+}
+
+class EconomicPrinter implements SmartPrinter {
+  print() {
+    // ...
+  }  
+  
+  fax() {
+    throw new Error('Fax not supported.');
+  }
+
+  scan() {
+    throw new Error('Scan not supported.');
+  }
+}
+```
+
+```javascript
+// good
+interface Printer {
+  print();
+}
+
+interface Fax {
+  fax();
+}
+
+interface Scanner {
+  scan();
+}
+
+class AllInOnePrinter implements Printer, Fax, Scanner {
+  print() {
+    // ...
+  }  
+  
+  fax() {
+    // ...
+  }
+
+  scan() {
+    // ...
+  }
+}
+
+class EconomicPrinter implements Printer {
+  print() {
+    // ...
+  }
+}
+
+```
